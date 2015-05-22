@@ -4,15 +4,17 @@ public class Cliente {
 	private int id;
 	private String name;
 	private String apellido;
+	private String dni;
 	
 	public Cliente() {
 		super();
 	}
-	public Cliente(int id, String name, String apellido) {
+	public Cliente(int id, String name, String apellido, String dni) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.apellido = apellido;
+		this.dni=dni;
 	}
 	public int getId() {
 		return id;
@@ -31,6 +33,13 @@ public class Cliente {
 	}
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
+	}
+	
+	public String getDni() {
+		return dni;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 	@Override
 	public String toString() {
