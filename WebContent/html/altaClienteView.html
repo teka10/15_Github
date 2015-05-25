@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Alta de Cliente</title>
+<link rel="stylesheet" type="text/css" href="../css/estilos.css">
+
+</head>
+<body>
+    <h1>Alta de Cliente</h1>
+
+    <form action="Tienda/altaCliente" method="post" enctype="text/html" name="form1">
+        <label>Nombre del cliente:</label>
+        <input type="text" name="nombre" required="required"/>
+        <label>Apellido:</label>
+        <input type="text" name="apellido" required="required"/>
+        <label>DNI:</label>
+        <input type="text" name="dni" required="required"/>
+        <input type="hidden" name="id" id="id" />
+        <br>
+        <br>
+        <input type="reset" name="borrar" value="BORRAR"/>
+        <input type="submit" name="enviar" value="ENVIAR"/>
+    </form>
+</body>
+</html>
