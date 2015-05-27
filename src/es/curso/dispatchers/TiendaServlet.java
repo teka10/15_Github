@@ -56,7 +56,7 @@ public class TiendaServlet extends HttpServlet {
 		// después de recoger la info, se redirige a una vista para mostrarlo .jsp
 		RequestDispatcher rd;
 		//aqui hay q enviar a la vista el resultado de la consulta  a la BBDD
-		rd = request.getRequestDispatcher("listarTodos.jsp");
+		rd = request.getRequestDispatcher("/jsp/listarTodos.jsp");
 		rd.forward(request, response);
 		
 	}
