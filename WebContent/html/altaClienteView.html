@@ -8,15 +8,15 @@
 </head>
 <body>
     <h1>Alta de Cliente</h1>
-
-    <form action="Tienda/altaCliente" method="post" enctype="text/html" name="form1">
+    <!-- llama al servlet Tienda con el parámetro altaCliente -->
+    <form action="../Tienda/altaCliente" method="post" enctype="text/html" name="form1">
         <label>Nombre del cliente:</label>
         <input type="text" name="nombre" required="required"/>
         <label>Apellido:</label>
         <input type="text" name="apellido" required="required"/>
         <label>DNI:</label>
         <input type="text" name="dni" required="required"/>
-        <input type="hidden" name="id" id="id" />
+        
         <br>
         <br>
         <input type="reset" name="borrar" value="BORRAR"/>
