@@ -2,8 +2,8 @@ package es.curso.model.entity;
 
 public class Cliente {
 	private int id;
-	private String name;
-	private String apellido;
+	private String nombres;
+	private String apellidos;
 	private String dni;
 	
 	public Cliente() {
@@ -12,8 +12,8 @@ public class Cliente {
 	public Cliente(int id, String name, String apellido, String dni) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.apellido = apellido;
+		this.nombres = name;
+		this.apellidos = apellido;
 		this.dni=dni;
 	}
 	public int getId() {
@@ -22,17 +22,17 @@ public class Cliente {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getNombres() {
+		return nombres;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setNombres(String name) {
+		this.nombres = name;
 	}
-	public String getApellido() {
-		return apellido;
+	public String getApellidos() {
+		return apellidos;
 	}
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setApellidos(String apellido) {
+		this.apellidos = apellido;
 	}
 	
 	public String getDni() {
@@ -43,17 +43,17 @@ public class Cliente {
 	}
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", name=" + name + ", apellido="
-				+ apellido + "]";
+		return "Cliente [id=" + id + ", nombres=" + nombres + ", apellido="
+				+ apellidos + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((apellido == null) ? 0 : apellido.hashCode());
+				+ ((apellidos == null) ? 0 : apellidos.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((nombres == null) ? 0 : nombres.hashCode());
 		return result;
 	}
 	@Override
@@ -66,17 +66,17 @@ public class Cliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		if (apellido == null) {
-			if (other.apellido != null)
+		if (apellidos == null) {
+			if (other.apellidos != null)
 				return false;
-		} else if (!apellido.equals(other.apellido))
+		} else if (!apellidos.equals(other.apellidos))
 			return false;
 		if (id != other.id)
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (nombres == null) {
+			if (other.nombres != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!nombres.equals(other.nombres))
 			return false;
 		return true;
 	}
