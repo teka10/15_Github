@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.curso.controllers.ejb.BuscarPorNombreControllerEjb;
 import es.curso.controllers.ejb.DarAltaClienteControllerEjb;
 import es.curso.controllers.ejb.ListarTodosControllerEjb;
 import es.curso.model.entity.Cliente;
@@ -65,11 +66,14 @@ public class TiendaServlet extends HttpServlet {
 			rd.forward(request, response);
 			break;
 		case "buscarPorNombre":
-			//llama al controlador q hace la consulta
-			//con el cliente obtenido, redirige 
-			titulo="Resultado de la búsqueda por nombre";
-			request.setAttribute("titulo", titulo);
-			rd = request.getRequestDispatcher("/jsp/listarTodos.jsp");
+			//redirige hacia la vista del formulario para buscar
+			rd=request.getRequestDispatcher("/jsp/buscarPorNombre.jsp");
+			rd.forward(request, response);
+			break;
+		case "altaCliente":
+			//cuando altaCliente llega por doGet es pq viene desde el enlace del formulario
+			//del index. Tiene q llamar al formulario del alta del cliente
+			rd = request.getRequestDispatcher("/html/altaClienteView.html");
 			rd.forward(request, response);
 			break;
 		default: // en cualquier otro caso, ej: dando atrás con los botones de naveg
@@ -86,6 +90,7 @@ public class TiendaServlet extends HttpServlet {
 		String action=request.getPathInfo().substring(1);
 		request.setCharacterEncoding("UTF-8");
 		RequestDispatcher rd;
+		String titulo="Sin titulo";
 		switch (action) {
 		case "altaCliente":
 			// crea un cliente con los datos del formulario
@@ -100,6 +105,20 @@ public class TiendaServlet extends HttpServlet {
 			controlador.agregar(cliente);
 			//cuando ha terminado, vuelve al index
 			rd = request.getRequestDispatcher("/index.html");
+			rd.forward(request, response);
+			break;
+		case "buscarPorNombre":
+			//recuperar la cadena tecleada en el formulario
+			String cadenaNombre=request.getParameter("nombre");
+			//hay q llamar al controlador buscarPorNombre
+			BuscarPorNombreControllerEjb controladorBusqueda = new BuscarPorNombreControllerEjb();
+			ArrayList<Cliente> resultado = controladorBusqueda.buscarPorNombre(cadenaNombre);
+			//y redirigir a la vista de consulta. Reutilizamos la vista listarTodos
+			request.setAttribute("clientes", resultado);
+			titulo="Búsqueda por " + cadenaNombre;
+			
+			request.setAttribute("titulo", titulo);
+			rd = request.getRequestDispatcher("/jsp/listarTodos.jsp");
 			rd.forward(request, response);
 			break;
 		}

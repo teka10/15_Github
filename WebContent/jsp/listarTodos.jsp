@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../css/estilos.css">
 </head>
 <body>
+    <a href="/15_Github/index.html">Inicio</a> 
     <!--  tabla html dimánicamente usando java -->
     <h1><%=request.getAttribute("titulo") %></h1>
     <span><%=LocalDateTime.now() %></span>
