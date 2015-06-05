@@ -69,9 +69,7 @@ public class ClienteDaoJdbc implements ClienteDao{
 				c.setApellidos(consulta.getString("apellidos"));
 				c.setDni(consulta.getString("dni"));
 				clientes.add(c);
-			}
-			
-			
+			}			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,6 +79,58 @@ public class ClienteDaoJdbc implements ClienteDao{
 		return clientes;
 	}
 	
+	@Override
+	public ArrayList<Cliente> searchByName(String name) {
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		
+		try {
+			abrirConexion();
+			PreparedStatement ps = 
+			  cx.prepareStatement("SELECT * FROM CLIENTE WHERE nombres LIKE ?");
+			ps.setString(1, "%" + name + "%");
+			ResultSet consulta = ps.executeQuery();
+			
+			while (consulta.next()) {
+				Cliente c = new Cliente();
+				c.setId(consulta.getInt("id"));
+				c.setNombres(consulta.getString("nombres"));
+				c.setApellidos(consulta.getString("apellidos"));
+				c.setDni(consulta.getString("dni"));
+				clientes.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			cerrarConexion();
+		}
+		return clientes;
+	}
+
+	@Override
+	public void update(Cliente cliente) {
+		
+		
+	}
+	
+	@Override
+	public boolean delete(Integer id) {
+		boolean resultado=false;
+		try {
+			abrirConexion();
+			PreparedStatement ps = 
+			  cx.prepareStatement("DELETE FROM CLIENTE WHERE id = ?");
+			ps.setInt(1,id);
+			int filas= ps.executeUpdate();
+			if (filas>0)
+				resultado=true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			cerrarConexion();
+		}
+	   return  resultado;
+	}
+
 	private void abrirConexion(){
 		try {
 			//determinar si tengo el driver o conector (de mysql)
@@ -96,8 +146,8 @@ public class ClienteDaoJdbc implements ClienteDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+
 	private void cerrarConexion(){
 		try {
 			if (cx!=null)
@@ -106,6 +156,8 @@ public class ClienteDaoJdbc implements ClienteDao{
 			e.printStackTrace();
 		}
 	}
+
+
 	
 	
 }

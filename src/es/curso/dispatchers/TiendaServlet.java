@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.curso.controllers.ejb.BorrarClienteControllerEjb;
 import es.curso.controllers.ejb.BuscarPorNombreControllerEjb;
 import es.curso.controllers.ejb.DarAltaClienteControllerEjb;
 import es.curso.controllers.ejb.ListarTodosControllerEjb;
@@ -70,10 +71,16 @@ public class TiendaServlet extends HttpServlet {
 			rd=request.getRequestDispatcher("/jsp/buscarPorNombre.jsp");
 			rd.forward(request, response);
 			break;
-		case "altaCliente":
+		case "altaCliente": 
 			//cuando altaCliente llega por doGet es pq viene desde el enlace del formulario
 			//del index. Tiene q llamar al formulario del alta del cliente
 			rd = request.getRequestDispatcher("/html/altaClienteView.html");
+			rd.forward(request, response);
+			break;
+		case "borrar": 
+			//cuando altaCliente llega por doGet es pq viene desde el enlace del formulario
+			//del index. Tiene q llamar al formulario del alta del cliente
+			rd = request.getRequestDispatcher("/jsp/borrar.jsp");
 			rd.forward(request, response);
 			break;
 		default: // en cualquier otro caso, ej: dando atrás con los botones de naveg
@@ -119,6 +126,18 @@ public class TiendaServlet extends HttpServlet {
 			
 			request.setAttribute("titulo", titulo);
 			rd = request.getRequestDispatcher("/jsp/listarTodos.jsp");
+			rd.forward(request, response);
+			break;
+		case "borrar":
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			BorrarClienteControllerEjb controladorBorrar = new BorrarClienteControllerEjb();
+			boolean borrado =controladorBorrar.borrarPorId(id);
+			if (borrado) {
+				rd=request.getRequestDispatcher("/index.html");
+			} else {
+				rd = request.getRequestDispatcher("/jsp/borrar.jsp");
+			}
+
 			rd.forward(request, response);
 			break;
 		}
