@@ -37,9 +37,15 @@ public class ClienteDaoJdbc implements ClienteDao{
 			// devuelve el nº filas afectadas
 			ps.executeUpdate();
 			// queda pendiente hacer commit
-			
+			cx.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		finally{
@@ -106,11 +112,6 @@ public class ClienteDaoJdbc implements ClienteDao{
 		return clientes;
 	}
 
-	@Override
-	public void update(Cliente cliente) {
-		
-		
-	}
 	
 	@Override
 	public boolean delete(Integer id) {
@@ -123,7 +124,14 @@ public class ClienteDaoJdbc implements ClienteDao{
 			int filas= ps.executeUpdate();
 			if (filas>0)
 				resultado=true;
+			cx.commit();
 		} catch (SQLException e) {
+			try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}finally{
 			cerrarConexion();
@@ -131,6 +139,60 @@ public class ClienteDaoJdbc implements ClienteDao{
 	   return  resultado;
 	}
 
+	@Override
+	public Cliente searchById(Integer id) {
+		Cliente cliente = new Cliente();
+		
+		try {
+			abrirConexion();
+			PreparedStatement ps = 
+			  cx.prepareStatement("SELECT * FROM CLIENTE WHERE id = ?");
+			ps.setInt(1, id);
+			ResultSet consulta = ps.executeQuery();
+			consulta.next(); // así pasamos a la primera ocurrencia del resultset
+			cliente.setId(consulta.getInt("id"));
+			cliente.setNombres(consulta.getString("nombres"));
+			cliente.setApellidos(consulta.getString("apellidos"));
+			cliente.setDni(consulta.getString("dni"));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			cerrarConexion();
+		}
+		return cliente;
+	}
+	
+	@Override
+	public boolean modificarPorId(Cliente cliente) {
+		boolean resultado=false;
+		try {
+			abrirConexion();
+			PreparedStatement ps = 
+			  cx.prepareStatement("UPDATE CLIENTE SET nombres=?, apellidos=?, dni=?"
+			  		+ "WHERE ID = ?");
+			ps.setString(1, cliente.getNombres());
+			ps.setString(2, cliente.getApellidos());
+			ps.setString(3, cliente.getDni());
+			ps.setInt(4, cliente.getId());
+			int filas= ps.executeUpdate();
+			if (filas>0)
+				resultado=true;
+			cx.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			cerrarConexion();
+		}
+		return resultado;
+	}
+	
 	private void abrirConexion(){
 		try {
 			//determinar si tengo el driver o conector (de mysql)
@@ -139,7 +201,7 @@ public class ClienteDaoJdbc implements ClienteDao{
 			cx = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tienda",
 					"rootTienda", "rootTienda");
 			//poner el autocommit en falso
-			//cx.setAutoCommit(false);
+			cx.setAutoCommit(false);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -156,6 +218,8 @@ public class ClienteDaoJdbc implements ClienteDao{
 			e.printStackTrace();
 		}
 	}
+
+
 
 
 	

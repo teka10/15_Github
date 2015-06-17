@@ -9,6 +9,7 @@ public interface ClienteDao {
 	
 	public ArrayList<Cliente> findAll();
 	public ArrayList<Cliente> searchByName(String name);
-	public void update(Cliente cliente);
 	public boolean delete(Integer id);
+	public Cliente searchById(Integer id);
+	public boolean modificarPorId(Cliente cliente);
 }
